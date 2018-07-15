@@ -151,9 +151,9 @@ namespace epub_creator
             _programArgs = args;
             string url = null;
 
-            bool help = false;
+            //bool help = false;
             bool epub = false;
-            int verbose = 0;
+            //int verbose = 0;
 
 
             url = GetOption("--url");
@@ -226,7 +226,7 @@ namespace epub_creator
                             {
                                 Console.Write("\n");
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"Error: {url}" + ex.Message);
+                                Console.WriteLine($"Error: {url} - {ex.Message}");
                                 Console.ResetColor();
                                 //Task.Delay(1000).Wait();
                             }
@@ -395,14 +395,14 @@ namespace epub_creator
                 //  Optional parameter
                 writer.Publisher = "tntdb";
 
-                foreach (var chap in processedData.OrderBy(o => o.Idx).ToList())
+                foreach (var chapterContent in processedData.OrderBy(o => o.Idx).ToList())
                 {
-                    Console.Write("\rCreating chapter: " + chap.FileName);
+                    Console.Write("\rCreating chapter: " + chapterContent.FileName);
                     //                    var idx = chapters.IndexOf(chap);
                     writer.AddChapterAsync(
-                        chap.FileName,
-                        chap.Title,
-                        chap.Content).Wait();
+                        chapterContent.FileName,
+                        chapterContent.Title,
+                        chapterContent.Content).Wait();
                 }
 
                 Console.Write("\n");
