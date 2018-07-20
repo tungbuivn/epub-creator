@@ -20,13 +20,18 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.5.25" />
     <PackageReference Include="TaskParallelLibrary" Version="1.0.2856" />
   </ItemGroup>
-  
   <ItemGroup>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Caching" />
   </ItemGroup>
-  <Target Name="Merge" AfterTargets="Build">
+  <ItemGroup>
+    <None Update="blacklist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="Merge" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release' ">
     <!--<Exec Command="mv $(OutDir)epub-creator.pdb $(OutDir)epub-creator.pdbbak" />-->
-    <Exec Command="ILMerge.exe /ndebug /t:exe $(OutDir)epub-creator.exe $(OutDir)System.Threading.Tasks.Dataflow.dll $(OutDir)Newtonsoft.Json.dll $(OutDir)EPubFactory.dll  $(OutDir)AngleSharp.dll /targetplatform:v4 /out:/epub/epub.exe" />
+    <Exec Command="ILMerge.exe /ndebug /t:exe $(OutDir)epub-creator.exe $(OutDir)System.Threading.Tasks.Dataflow.dll $(OutDir)Newtonsoft.Json.dll $(OutDir)EPubFactory.dll $(OutDir)Autofac.dll  $(OutDir)AngleSharp.dll /targetplatform:v4 /out:/epub/epub.exe" />
     <!--<Exec Command="mv $(OutDir)epub-creator.pdbbak $(OutDir)epub-creator.pdb" />-->
   </Target>
 </Project>

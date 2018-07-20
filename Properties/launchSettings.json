@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "epub-creator": {
+      "commandName": "Project",
+      "commandLineArgs": " --url=\"http://webtruyen.com/de-ton/\" --epub"
+    }
+  }
+}

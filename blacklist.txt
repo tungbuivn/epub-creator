@@ -1,6 +1,8 @@
---
-~
-*
+\-{2,}
+\~{2,}
+\*{2,}
+_{2,}
+\.{4,}
 &nbsp;
 Đọc Truyện Online Tại http://truyenfull.vn
 Bạn đang đọc truyện được copy tại
@@ -11,3 +13,4 @@ Nguồn: http://truyenfull.vn
 Truyện FULL
 Nguồn tại http://
 Truyện được copy tại
+truyenfull.vn

@@ -7,14 +7,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using AngleSharp.Extensions;
 using AngleSharp.Parser.Html;
+using Autofac;
 using EPubFactory;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace epub_creator
 {
@@ -24,44 +28,37 @@ namespace epub_creator
     //    public int idx { get; set; }
     //}
 
-    internal class ChapterContent
-    {
-        public string FileName { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public int Idx { get; set; }
-    }
-
-    public class ChapterInfo
-    {
-        public string Title { get; set; }
-        public string Link { get; set; }
-        public int Idx { get; set; }
-    }
-
     public class Main
     {
-        private const string StrUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
-        private static string _root;
 
-        static string GetOption(string name, string def = null)
+
+        private readonly Config _cfg;
+        private readonly Util _util;
+
+        public Main(Config cfg, Util util)
         {
-            return _programArgs?.Where(o => o.StartsWith(name))
+            _cfg = cfg;
+            _util = util;
+        }
+
+        string GetOption(string name, string def = null)
+        {
+            return _cfg.CommandLine?.Where(o => o.StartsWith(name))
                        .Select(o => o.Trim()
-                           .Split(new[] {name}, StringSplitOptions.None)
+                           .Split(new[] { name }, StringSplitOptions.None)
                            .Last()
                            .Trim()
                            .TrimStart('=')
                        ).FirstOrDefault() ?? def;
         }
 
-        static bool HasKey(string name)
+        bool HasKey(string name)
         {
-            return _programArgs?.Where(o => o.StartsWith(name)).Any() ?? false;
+            return _cfg.CommandLine?.Where(o => o.StartsWith(name)).Any() ?? false;
         }
 
-        private static string[] _programArgs = null;
-        private static string _story;
+        //private static string[] _programArgs = null;
+        
         string _dir = null;
 
         List<ChapterInfo> DownloadAll(List<ChapterInfo> allStories)
@@ -70,38 +67,43 @@ namespace epub_creator
 
             BufferBlock<ChapterInfo> urls = new BufferBlock<ChapterInfo>(new DataflowBlockOptions()
             {
-                BoundedCapacity = Environment.ProcessorCount
+                BoundedCapacity = 100
             });
 
             ActionBlock<ChapterInfo> download = new ActionBlock<ChapterInfo>(u =>
             {
                 Console.WriteLine(u.Link);
-                using (var wc = new WebClient())
+                //using (var wc = new WebClient())
+                //{
+                //wc.Headers.Add("User-Agent",StrUserAgent);
+
+                try
                 {
-                    wc.Headers.Add("User-Agent",StrUserAgent);
-
-                    try
+                    var fileName = Path.Combine(_cfg.StoryDataDirectory, u.Idx.ToString());
+                    if (!File.Exists(fileName))
                     {
-                        var fileName = Path.Combine(_story, "data", u.Idx.ToString());
-                        if (!File.Exists(fileName))
-                        {
-                            var bytes = wc.DownloadData(u.Link);
-                            if (bytes != null && bytes.Any())
-                            {
-                                var html = Encoding.UTF8.GetString(bytes);
-                                File.WriteAllText(fileName, html);
-                            }
-                        }
+                        var html = _util.DownloadUrl(u.Link);
+                        if (!string.IsNullOrEmpty(html))
+                            File.WriteAllText(fileName, html);
+                        //if (bytes != null && bytes.Any())
+                        //{
+                        //    var html = Encoding.UTF8.GetString(bytes);
 
-                        //                            var parser = new HtmlParser();
-                        //                            var doc = parser.Parse(html);
+                        //}
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error:" + ex.Message);
-                        err.Add(u);
-                    }
+
+                    //                            var parser = new HtmlParser();
+                    //                            var doc = parser.Parse(html);
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error:" + ex.Message);
+                    err.Add(u);
+                }
+                //}
+            },new ExecutionDataflowBlockOptions()
+            {
+                MaxDegreeOfParallelism = -1
             });
             urls.LinkTo(download, new DataflowLinkOptions()
             {
@@ -120,21 +122,7 @@ namespace epub_creator
             return err.ToList();
         }
 
-        string Download(string url)
-        {
-            var cookieContainer = new CookieContainer();
-            using (var handler = new HttpClientHandler() {CookieContainer = cookieContainer})
-            using (var client = new HttpClient(handler))
-            {
-                client.DefaultRequestHeaders.Add("User-Agent",StrUserAgent);
 
-                using (var result = client.GetAsync(url).Result)
-                {
-                    result.EnsureSuccessStatusCode();
-                    return Encoding.UTF8.GetString(result.Content.ReadAsByteArrayAsync().Result);
-                }
-            }
-        }
 
         public static void ClearCurrentConsoleLine()
         {
@@ -144,11 +132,29 @@ namespace epub_creator
             Console.SetCursorPosition(0, currentLineCursor);
         }
 
-        public void Run(string[] args)
+        public string ResolveDriver(string url = "", string dir = "")
+        {
+            Uri driver;
+            if (!string.IsNullOrEmpty(url))
+            {
+                driver = new Uri(url);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(dir)) throw new Exception("Không tìm được driver cho trang web");
+                var chapters = JsonConvert.DeserializeObject<List<ChapterInfo>>(File.ReadAllText(_cfg.ChapterJson));
+                driver = new Uri(chapters[0].Link);
+            }
+            if (driver == null) throw new Exception("Không tìm được driver cho trang web");
+            return driver.Host;
+        }
+        IStorySite driver;
+
+        public void Run()
         {
             //            new Aspose.Words.License().SetLicense(License.LStream);
             //            testAsp();
-            _programArgs = args;
+
             string url = null;
 
             //bool help = false;
@@ -159,96 +165,99 @@ namespace epub_creator
             url = GetOption("--url");
             _dir = GetOption("--dir");
             epub = HasKey("--epub");
-            _root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""));
-            var rootData = Path.Combine(_root, "data");
-            var url1 = url;
-            _dir = _dir ?? new Lazy<string>(() => url1?.Split('/').Last(o => !string.IsNullOrEmpty(o)) ?? "").Value;
+            _dir = _dir ?? (url?.Split('/').Last(o => !string.IsNullOrEmpty(o)) ?? "");
+            _cfg.RootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""));
+            _cfg.StoryDirName = _dir;
+            //_story = Path.Combine(_cfg.DataDirectory, _dir);
 
+            Directory.CreateDirectory(_cfg.StoryDirectory);
+            Directory.CreateDirectory(_cfg.StoryDataDirectory);
 
-            _story = Path.Combine(rootData, _dir);
-            Directory.CreateDirectory(_story);
-            Directory.CreateDirectory(Path.Combine(_story, "data"));
+            
+            driver = _cfg.Container.ResolveNamed<IStorySite>(ResolveDriver(url, _dir));
+            driver.GetListChapters(url);
+            driver.SaveListChapters();
 
             List<ChapterInfo> allStories = new List<ChapterInfo>();
-            if (!string.IsNullOrEmpty(url))
-            {
-                var found = true;
+            //if (!string.IsNullOrEmpty(url))
+            //{
+            //    var found = true;
 
-                if (!File.Exists(Path.Combine(_story, "chapters.json")))
-                    while (found)
-                    {
-                        ClearCurrentConsoleLine();
-                        Console.Write($"\r{url}");
-                        using (var wc = new WebClient())
-                        {
-                            try
-                            {
-                                wc.Headers.Add("User-Agent",StrUserAgent);
+            //    if (!File.Exists(Path.Combine(_story, "chapters.json")))
+            //        while (found)
+            //        {
+            //            ClearCurrentConsoleLine();
+            //            Console.Write($"\r{url}");
+            //            using (var wc = new WebClient())
+            //            {
+            //                try
+            //                {
+            //                    wc.Headers.Add("User-Agent",_cfg.StrUserAgent);
 
-                                if (url != null)
-                                {
-                                    var bytes = wc.DownloadData(url);
-                                    var html = Encoding.UTF8.GetString(bytes);
-                                    var parser = new HtmlParser();
-                                    var doc = parser.Parse(html);
-                                    var chaps = doc.QuerySelectorAll("#list-chapter")
-                                        .SelectMany(o => o.QuerySelectorAll("ul")
-                                            .Where(p => p.Attributes["class"]?.Value?.ToString()
-                                                            .Contains("list-chapter") ??
-                                                        false)
-                                            .ToList()
-                                        )
-                                        .Where(o => o != null)
-                                        .SelectMany(o => o.QuerySelectorAll("a")
-                                            .Select(p => new ChapterInfo()
-                                            {
-                                                Title = p.Text(),
-                                                Link = p.Attributes["href"]?.Value
-                                            }).ToList())
-                                        .Where(o => !string.IsNullOrEmpty(o.Link))
-                                        .ToList();
-                                    allStories.AddRange(chaps);
+            //                    if (url != null)
+            //                    {
+            //                        var bytes = wc.DownloadData(url);
+            //                        var html = Encoding.UTF8.GetString(bytes);
+            //                        var parser = new HtmlParser();
+            //                        var doc = parser.Parse(html);
+            //                        var chaps = doc.QuerySelectorAll("#list-chapter")
+            //                            .SelectMany(o => o.QuerySelectorAll("ul")
+            //                                .Where(p => p.Attributes["class"]?.Value?.ToString()
+            //                                                .Contains("list-chapter") ??
+            //                                            false)
+            //                                .ToList()
+            //                            )
+            //                            .Where(o => o != null)
+            //                            .SelectMany(o => o.QuerySelectorAll("a")
+            //                                .Select(p => new ChapterInfo()
+            //                                {
+            //                                    Title = p.Text(),
+            //                                    Link = p.Attributes["href"]?.Value
+            //                                }).ToList())
+            //                            .Where(o => !string.IsNullOrEmpty(o.Link))
+            //                            .ToList();
+            //                        allStories.AddRange(chaps);
 
-                                    // get chapters link
-                                    // get next list chapters
-                                    url = doc
-                                        .QuerySelectorAll(".pagination > li")
-                                        .ToList()
-                                        .Where(o => o.QuerySelectorAll(".glyphicon-menu-right").Length > 0)
-                                        .Select(o => o.QuerySelector("a"))
-                                        .Select(o => o.Attributes["href"]?.Value.Split('#').FirstOrDefault())
-                                        .FirstOrDefault(o => o != null);
-                                }
+            //                        // get chapters link
+            //                        // get next list chapters
+            //                        url = doc
+            //                            .QuerySelectorAll(".pagination > li")
+            //                            .ToList()
+            //                            .Where(o => o.QuerySelectorAll(".glyphicon-menu-right").Length > 0)
+            //                            .Select(o => o.QuerySelector("a"))
+            //                            .Select(o => o.Attributes["href"]?.Value.Split('#').FirstOrDefault())
+            //                            .FirstOrDefault(o => o != null);
+            //                    }
 
-                                found = !string.IsNullOrEmpty(url);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.Write("\n");
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"Error: {url} - {ex.Message}");
-                                Console.ResetColor();
-                                //Task.Delay(1000).Wait();
-                            }
-                        }
-                    }
+            //                    found = !string.IsNullOrEmpty(url);
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    Console.Write("\n");
+            //                    Console.ForegroundColor = ConsoleColor.Red;
+            //                    Console.WriteLine($"Error: {url} - {ex.Message}");
+            //                    Console.ResetColor();
+            //                    //Task.Delay(1000).Wait();
+            //                }
+            //            }
+            //        }
 
-                if (allStories.Any())
-                {
-                    File.WriteAllText(Path.Combine(_story, "chapters.json"),
-                        JsonConvert.SerializeObject(allStories.Select((o, i) =>
-                            {
-                                o.Idx = i;
-                                return o;
-                            }).ToList()
-                        )
-                    );
-                }
-            }
+            //    if (allStories.Any())
+            //    {
+            //        File.WriteAllText(Path.Combine(_story, "chapters.json"),
+            //            JsonConvert.SerializeObject(allStories.Select((o, i) =>
+            //                {
+            //                    o.Idx = i;
+            //                    return o;
+            //                }).ToList()
+            //            )
+            //        );
+            //    }
+            //}
 
             if (!string.IsNullOrEmpty(_dir))
             {
-                var chapFile = Path.Combine(_story, "chapters.json");
+                var chapFile = _cfg.ChapterJson;
                 if (File.Exists(chapFile))
                 {
                     allStories = JsonConvert.DeserializeObject<List<ChapterInfo>>(
@@ -279,7 +288,7 @@ namespace epub_creator
         {
             var chapters =
                 JsonConvert.DeserializeObject<List<ChapterInfo>>(
-                        File.ReadAllText(Path.Combine(_story, @"chapters.json")))
+                        File.ReadAllText(_cfg.ChapterJson))
                     .Select((o, i) =>
                     {
                         o.Idx = i;
@@ -291,83 +300,24 @@ namespace epub_creator
             BufferBlock<ChapterInfo> bufferBlock = new BufferBlock<ChapterInfo>(new DataflowBlockOptions()
             {
                 BoundedCapacity = 100
-                
+
             });
+            int bl=0;
+            int total = chapters.Count;
+            int len = total.ToString().Length;
 
             ActionBlock<ChapterInfo> processContent = new ActionBlock<ChapterInfo>(chapterInfo =>
             {
-                var content = File.ReadAllText(Path.Combine(_story, @"data", chapterInfo.Idx.ToString()));
+                var content = File.ReadAllText(Path.Combine(_cfg.StoryDataDirectory, chapterInfo.Idx.ToString()));
                 var document = parser.Parse(content);
-                var text = document.QuerySelector(".chapter-c");
-                text.OuterHtml = "<div>" + text.InnerHtml + "</div>";
-                text.QuerySelectorAll("script").ToList().ForEach(o => o.OuterHtml = "\n");
-                while (text.QuerySelector("i") != null)
-                {
-                    var i = text.QuerySelector("i");
-                    i.OuterHtml = i.InnerHtml;
-                }
+                Interlocked.Increment(ref bl);
+               
+                Console.Write($"\rParsed: {bl.ToString().PadLeft(len,' ')} / {(total - bl).ToString().PadLeft(len, ' ')}");
 
-
-                text.QuerySelectorAll("*")
-                    .Select(o => new {o, attr = o.Attributes["style"]?.Value})
-                    .Where(o => o.attr != null)
-                    .Where(o => o.attr.Contains("font-size:0px")
-                                || o.attr.Contains("font-size:1px")
-                                || o.attr.Contains("font-size:2px")
-                                || o.attr.Contains("font-size:3px")
-                                || o.attr.Contains("font-size:4px")
-                                || o.attr.Contains("color:white;")
-                    )
-                    .ToList()
-                    .ForEach(o => o.o.Remove());
-                
-                while (text.QuerySelectorAll("*").Any())
-                {
-                    text.QuerySelectorAll("*")
-                        .ToList()
-                        .ForEach(o =>
-                        {
-                            Console.Write($"\r{o.TagName}");
-                            o.OuterHtml = string.IsNullOrEmpty(o.Text()) ? "\n" : "\n" + o.InnerHtml;
-                        });
-                }
-                Console.Write("\n");
-
-                //if (text.QuerySelectorAll("*").Any()) goto lbl1;
-                var textClip = text.InnerHtml;
-                foreach (var p in File.ReadAllLines(Path.Combine(_root, "blacklist.txt")))
-                {
-                    textClip = Regex.Replace(textClip, p, "", RegexOptions.IgnoreCase);
-                }
-
-                var js = String.Join("",
-                    textClip
-                        .Split('\n')
-                        .Where(o => o != null && !string.IsNullOrEmpty(o))
-                        .Select(o =>
-                        {
-                            var doc = document.CreateElement("p");
-                            doc.TextContent = o.Trim();
-                            return doc.OuterHtml;
-                        })
-                        .ToArray());
-                var docTitle = document.CreateElement("h1");
-                docTitle.TextContent = chapterInfo.Title;
-                var finalHtml =
-                    $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title /></head><body>{docTitle.OuterHtml}{js}</body></html>";
-                var fileName = $"chapter-{chapterInfo.Idx}.xhtml";
-                Console.Write("\rParsed: " + chapterInfo.Idx);
-
-                processedData.Add(new ChapterContent()
-                {
-                    Idx = chapterInfo.Idx,
-                    FileName = fileName,
-                    Title = chapterInfo.Title,
-                    Content = $"{finalHtml}"
-                });
+                processedData.Add(driver.GetChapterContent(chapterInfo,document));
             }, new ExecutionDataflowBlockOptions()
             {
-                MaxDegreeOfParallelism = Environment.ProcessorCount
+                MaxDegreeOfParallelism = -1
             });
             bufferBlock.LinkTo(processContent, new DataflowLinkOptions()
             {
@@ -394,10 +344,11 @@ namespace epub_creator
             {
                 //  Optional parameter
                 writer.Publisher = "tntdb";
-
+                bl = 0;
                 foreach (var chapterContent in processedData.OrderBy(o => o.Idx).ToList())
                 {
-                    Console.Write("\rCreating chapter: " + chapterContent.FileName);
+                    Interlocked.Increment(ref bl);
+                    Console.Write($"\rCreating chapter {bl.ToString().PadLeft(len, ' ')} / {(total-bl).ToString().PadLeft(len, ' ')} : {chapterContent.FileName}");
                     //                    var idx = chapters.IndexOf(chap);
                     writer.AddChapterAsync(
                         chapterContent.FileName,
