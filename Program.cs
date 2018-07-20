@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Runtime.Caching;
 using Autofac;
-using Autofac.Core;
 
 namespace epub_creator
 {
@@ -9,7 +7,7 @@ namespace epub_creator
     {
         private static void Main(string[] args)
         {
-            System.Net.ServicePointManager.DefaultConnectionLimit = 10;
+            System.Net.ServicePointManager.DefaultConnectionLimit = 50;
             var builder = new ContainerBuilder();
             var config = new Config(args);
             builder.Register(c => config).AsSelf();

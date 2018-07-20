@@ -4,21 +4,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Caching;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using AngleSharp.Extensions;
 using AngleSharp.Parser.Html;
 using Autofac;
 using EPubFactory;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace epub_creator
 {
