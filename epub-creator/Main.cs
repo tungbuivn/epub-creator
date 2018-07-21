@@ -91,14 +91,14 @@ namespace epub_creator
                         //}
                     }
                     
-                    _cfg.logQueue.Enqueue($"{sw.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture).PadLeft(6, ' ')} - {u.Link}");
+                    _cfg.LogQueue.Enqueue($"{sw.Elapsed.TotalMilliseconds.ToString(CultureInfo.InvariantCulture).PadLeft(6, ' ')} - {u.Link}");
 
                     //                            var parser = new HtmlParser();
                     //                            var doc = parser.Parse(html);
                 }
                 catch (Exception ex)
                 {
-                    _cfg.logQueue.Enqueue($"Download error {ex.StackTrace}");
+                    _cfg.LogQueue.Enqueue($"Download error {ex.StackTrace}");
                     err.Add(u);
                 }
                 //}
@@ -175,7 +175,7 @@ namespace epub_creator
             Directory.CreateDirectory(_cfg.StoryDirectory);
             Directory.CreateDirectory(_cfg.StoryDataDirectory);
 
-            _cfg.logQueue.Enqueue($"Begin process {url}");
+            _cfg.LogQueue.Enqueue($"Begin process {url}");
             _driver = _cfg.Container.ResolveNamed<IStorySite>(ResolveDriver(url, _dir));
             _driver.GetListChapters(url);
             _driver.SaveListChapters();
@@ -236,7 +236,7 @@ namespace epub_creator
             {
                
                 processedData.Add(_driver.GetChapterContent(chapterInfo));
-                _cfg.logQueue.Enqueue($"Parsed: {chapterInfo.Idx} - {chapterInfo.Title} - {chapterInfo.Link}");
+                _cfg.LogQueue.Enqueue($"Parsed: {chapterInfo.Idx} - {chapterInfo.Title} - {chapterInfo.Link}");
             }, new ExecutionDataflowBlockOptions()
             {
                 MaxDegreeOfParallelism = Environment.ProcessorCount
@@ -270,7 +270,7 @@ namespace epub_creator
                 foreach (var chapterContent in processedData.OrderBy(o => o.Idx).ToList())
                 {
                     Interlocked.Increment(ref bl);
-                    _cfg.logQueue.Enqueue($"Creating chapter {bl.ToString().PadLeft(len, ' ')} / {(total-bl).ToString().PadLeft(len, ' ')} : {chapterContent.FileName}");
+                    _cfg.LogQueue.Enqueue($"Creating chapter {bl.ToString().PadLeft(len, ' ')} / {(total-bl).ToString().PadLeft(len, ' ')} : {chapterContent.FileName}");
                     //                    var idx = chapters.IndexOf(chap);
                     writer.AddChapterAsync(
                         chapterContent.FileName,
@@ -283,7 +283,7 @@ namespace epub_creator
 
                 await writer.WriteEndOfPackageAsync();
             }
-            _cfg.logQueue.Enqueue("Process done!");
+            _cfg.LogQueue.Enqueue("Process done!");
             _cfg.Done = true;
         }
     }

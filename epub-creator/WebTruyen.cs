@@ -37,7 +37,7 @@ namespace epub_creator
                 //using (var wc = new WebClient())
                 if (page!=null)
                 {
-                    Cfg.logQueue.Enqueue($"{page.Link}");
+                    Cfg.LogQueue.Enqueue($"{page.Link}");
                     try
                     {
                         //wc.Headers.Add("User-Agent", Cfg.StrUserAgent);
@@ -94,7 +94,7 @@ namespace epub_creator
                     }
                     catch (Exception ex)
                     {
-                        Cfg.logQueue.Enqueue($"download error:{ex.StackTrace}");
+                        Cfg.LogQueue.Enqueue($"download error:{ex.StackTrace}");
                         Task.Delay(1000).Wait();
                     }
 
@@ -199,7 +199,7 @@ namespace epub_creator
             }
             catch (Exception ex)
             {
-                Cfg.logQueue.Enqueue($"error parse {ex.StackTrace}");
+                Cfg.LogQueue.Enqueue($"error parse {ex.StackTrace}");
                 throw;
             }
            

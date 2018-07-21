@@ -20,9 +20,7 @@ namespace epub_creator
                     .Enrich.WithExceptionDetails()
                     .WriteTo.Debug()
 //                    .WriteTo.Console()
-                    .WriteTo.RollingFile(
-                        new JsonFormatter(renderMessage: true), 
-                        @"log-{Date}.txt")    
+                    .WriteTo.RollingFile(@"log-{Date}.txt",fileSizeLimitBytes:1024*1024*2)    
                   
                     .CreateLogger())
                 .As<ILogger>().SingleInstance();
@@ -73,7 +71,7 @@ namespace epub_creator
                 var log = container.Resolve<ILogger>();
                 while (!config.Done)
                 {
-                    if (config.logQueue.TryDequeue(out var act))
+                    if (config.LogQueue.TryDequeue(out var act))
                     {
                         log.Debug(act);
                     }
@@ -84,7 +82,7 @@ namespace epub_creator
 
                     
                 }
-                while (config.logQueue.TryDequeue(out var act))
+                while (config.LogQueue.TryDequeue(out var act))
                 {
                     log.Debug(act);
                 }

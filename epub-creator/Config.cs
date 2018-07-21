@@ -13,7 +13,7 @@ namespace epub_creator
     {
         public IContainer Container;
         public bool Done = false;
-        public ConcurrentQueue<string> logQueue =new ConcurrentQueue<string>();
+        public readonly ConcurrentQueue<string> LogQueue =new ConcurrentQueue<string>();
         public string StrUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
         public string[] CommandLine;
         public string DataDirectory => Path.Combine(RootDirectory, "data");

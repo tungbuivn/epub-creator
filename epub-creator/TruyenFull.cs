@@ -103,7 +103,7 @@ namespace epub_creator
             {
                 //ClearCurrentConsoleLine();
                 var url2 = url;
-                Cfg.logQueue.Enqueue($"{url2}");
+                Cfg.LogQueue.Enqueue($"{url2}");
                 using (var wc = new WebClient())
                 {
                     try
@@ -150,7 +150,7 @@ namespace epub_creator
                     catch (Exception ex)
                     {
                         
-                        Cfg.logQueue.Enqueue($"Error {url} -{ex.StackTrace}");
+                        Cfg.LogQueue.Enqueue($"Error {url} -{ex.StackTrace}");
                       
                         //Task.Delay(1000).Wait();
                     }
