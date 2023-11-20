@@ -168,7 +168,8 @@ namespace epub_creator
             _dir = GetOption("--dir");
             epub = HasKey("--epub");
             _dir = _dir ?? (url?.Split('/').Last(o => !string.IsNullOrEmpty(o)) ?? "");
-            _cfg.RootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""));
+            var rootDir = string.Join("/",Assembly.GetExecutingAssembly().Location.Replace("\\","").Split("/").SkipLast(1));
+            _cfg.RootDirectory = rootDir;
             _cfg.StoryDirName = _dir;
             //_story = Path.Combine(_cfg.DataDirectory, _dir);
 

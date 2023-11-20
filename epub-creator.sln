@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "epub-creator", "epub-creator\epub-creator.csproj", "{0811D390-E055-431C-BC4D-A266B210BCC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "epub2", "epub2\epub2.csproj", "{617CE04C-8D32-4B5A-9714-6A5F48CB909F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0811D390-E055-431C-BC4D-A266B210BCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0811D390-E055-431C-BC4D-A266B210BCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0811D390-E055-431C-BC4D-A266B210BCC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{617CE04C-8D32-4B5A-9714-6A5F48CB909F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{617CE04C-8D32-4B5A-9714-6A5F48CB909F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{617CE04C-8D32-4B5A-9714-6A5F48CB909F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{617CE04C-8D32-4B5A-9714-6A5F48CB909F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

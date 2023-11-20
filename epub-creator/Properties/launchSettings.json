@@ -2,7 +2,7 @@
   "profiles": {
     "epub-creator": {
       "commandName": "Project",
-      "commandLineArgs": " --url=\"http://webtruyen.com/de-ton/\" --epub"
+      "commandLineArgs": " --url=\"https://thichdoctruyen.vip/doc-truyen/the-gioi-tien-hiep-186674\" --epub"
     }
   }
 }

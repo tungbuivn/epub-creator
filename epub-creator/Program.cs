@@ -19,7 +19,7 @@ namespace epub_creator
                     .MinimumLevel.Debug()
                     .Enrich.WithExceptionDetails()
                     .WriteTo.Debug()
-//                    .WriteTo.Console()
+                    .WriteTo.Console()
                     .WriteTo.RollingFile(@"log-{Date}.txt",fileSizeLimitBytes:1024*1024*2)    
                   
                     .CreateLogger())
@@ -36,6 +36,11 @@ namespace epub_creator
             builder.RegisterType<WebTruyen>()
                 .As<IStorySite>()
                 .Named<IStorySite>("webtruyen.com")
+                .OnActivating(InitializeProperty)
+                .AsSelf().SingleInstance();
+            builder.RegisterType<ThichDocTruyen>()
+                .As<IStorySite>()
+                .Named<IStorySite>("thichdoctruyen.vip")
                 .OnActivating(InitializeProperty)
                 .AsSelf().SingleInstance();
             using (var container = builder.Build())
@@ -73,7 +78,7 @@ namespace epub_creator
                 {
                     if (config.LogQueue.TryDequeue(out var act))
                     {
-                        log.Debug(act);
+                        log.Information(act);
                     }
                     else
                     {
@@ -84,7 +89,7 @@ namespace epub_creator
                 }
                 while (config.LogQueue.TryDequeue(out var act))
                 {
-                    log.Debug(act);
+                    log.Information(act);
                 }
                 t.Wait();
             });
