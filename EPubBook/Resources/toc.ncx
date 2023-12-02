@@ -1,0 +1,815 @@
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd"[]>
+<ncx xml:lang="en" xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+  <head>
+    <meta name="dtb:uid" content="08915002" />
+    <meta name="dtb:depth" content="1" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>kien long</text>
+  </docTitle>
+  <docAuthor>
+    <text>tntdb</text>
+  </docAuthor>
+  <navMap>
+    <navPoint id="navPoint-1" playOrder="1">
+      <navLabel>
+        <text>Chương 1: 1: Vào Sơn Môn</text>
+      </navLabel>
+      <content src="chapter-1.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-2" playOrder="2">
+      <navLabel>
+        <text>Chương 2: 2: Nam Chúc Quân</text>
+      </navLabel>
+      <content src="chapter-2.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-3" playOrder="3">
+      <navLabel>
+        <text>Chương 3: 3: Trục Lộc</text>
+      </navLabel>
+      <content src="chapter-3.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-4" playOrder="4">
+      <navLabel>
+        <text>Chương 4: 4: Xảo Ngôn</text>
+      </navLabel>
+      <content src="chapter-4.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-5" playOrder="5">
+      <navLabel>
+        <text>Chương 5: 5: Lệnh Sắc</text>
+      </navLabel>
+      <content src="chapter-5.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-6" playOrder="6">
+      <navLabel>
+        <text>Chương 6: 6: Tiên Lạc</text>
+      </navLabel>
+      <content src="chapter-6.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-7" playOrder="7">
+      <navLabel>
+        <text>Chương 7: 7: Địa Tàng</text>
+      </navLabel>
+      <content src="chapter-7.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-8" playOrder="8">
+      <navLabel>
+        <text>Chương 8: 8: Không Muốn Lấy Tiêu Đề</text>
+      </navLabel>
+      <content src="chapter-8.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-9" playOrder="9">
+      <navLabel>
+        <text>Chương 9: 9: Xui Xẻo Đầu Tiên</text>
+      </navLabel>
+      <content src="chapter-9.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-10" playOrder="10">
+      <navLabel>
+        <text>Chương 10: 10: Lỗi Thời Vô Song</text>
+      </navLabel>
+      <content src="chapter-10.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-11" playOrder="11">
+      <navLabel>
+        <text>Chương 11: 11: Cho Ngươi Được Phúc</text>
+      </navLabel>
+      <content src="chapter-11.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-12" playOrder="12">
+      <navLabel>
+        <text>Chương 12: 12: Nhị Châu Hàn Cung</text>
+      </navLabel>
+      <content src="chapter-12.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-13" playOrder="13">
+      <navLabel>
+        <text>Chương 13: 13: Thạch Nữ Cổ Trận</text>
+      </navLabel>
+      <content src="chapter-13.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-14" playOrder="14">
+      <navLabel>
+        <text>Chương 14: 14: Một Ngày Nào Đó</text>
+      </navLabel>
+      <content src="chapter-14.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-15" playOrder="15">
+      <navLabel>
+        <text>Chương 15: 15: Gặp Lại Thanh Loan</text>
+      </navLabel>
+      <content src="chapter-15.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-16" playOrder="16">
+      <navLabel>
+        <text>Chương 16: 16: Gặp Lại Thanh Loan</text>
+      </navLabel>
+      <content src="chapter-16.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-17" playOrder="17">
+      <navLabel>
+        <text>Chương 17: 17: Nộ Phạm Thiên Uy</text>
+      </navLabel>
+      <content src="chapter-17.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-18" playOrder="18">
+      <navLabel>
+        <text>Chương 18: 18: Ẩm Tuyết Tựa Vào Lan Can Hồng Tụ Quăng Hương</text>
+      </navLabel>
+      <content src="chapter-18.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-19" playOrder="19">
+      <navLabel>
+        <text>Chương 19: 19: Nam Chúc Say Rượu A Man Dấu Ấn</text>
+      </navLabel>
+      <content src="chapter-19.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-20" playOrder="20">
+      <navLabel>
+        <text>Chương 20: 20: Mệnh Phú Quý Là Do Trời Không Phải Do Người</text>
+      </navLabel>
+      <content src="chapter-20.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-21" playOrder="21">
+      <navLabel>
+        <text>Chương 21: 21: Quỳ Từ Đường Song Xu Luận Luân Thường</text>
+      </navLabel>
+      <content src="chapter-21.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-22" playOrder="22">
+      <navLabel>
+        <text>Chương 22: 22: Kiều Man Nữ Không Rõ Nhân Gian Tình</text>
+      </navLabel>
+      <content src="chapter-22.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-23" playOrder="23">
+      <navLabel>
+        <text>Chương 23: 23: Nghé Con Mới Sinh Du Tẩu Thị Môn</text>
+      </navLabel>
+      <content src="chapter-23.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-24" playOrder="24">
+      <navLabel>
+        <text>Chương 24: 24: Hào Ném Trăm Vạn Một Tranh Kỳ Thạch</text>
+      </navLabel>
+      <content src="chapter-24.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-25" playOrder="25">
+      <navLabel>
+        <text>Chương 25: 25: Sinh Tử Đấu A Man Thiết Diệu Kế</text>
+      </navLabel>
+      <content src="chapter-25.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-26" playOrder="26">
+      <navLabel>
+        <text>Chương 26: 26: Nguyệt Hòe Ảnh Hạ Bạch Tụ Uấn Lệ</text>
+      </navLabel>
+      <content src="chapter-26.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-27" playOrder="27">
+      <navLabel>
+        <text>Chương 27: 27: Đến Trứng Rồng Song Xu Vào Nơi Hiểm Yếu</text>
+      </navLabel>
+      <content src="chapter-27.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-28" playOrder="28">
+      <navLabel>
+        <text>Chương 28: 28: Tổn Thương Người Lấy Lời Sâu Với Mâu Kích</text>
+      </navLabel>
+      <content src="chapter-28.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-29" playOrder="29">
+      <navLabel>
+        <text>Chương 29: 29: Đạp Tiên Đồ Ta Muốn Trên Cửu Thiên</text>
+      </navLabel>
+      <content src="chapter-29.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-30" playOrder="30">
+      <navLabel>
+        <text>Chương 30: 30: Tỷ Có Nghe Qua Một Chuyện Xưa</text>
+      </navLabel>
+      <content src="chapter-30.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-31" playOrder="31">
+      <navLabel>
+        <text>Chương 31: 31: Lấy Được Kỳ Môn Đêm Trên Sườn Núi Tinh Nguyệt</text>
+      </navLabel>
+      <content src="chapter-31.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-32" playOrder="32">
+      <navLabel>
+        <text>Chương 32: 32: Chợ Tận Đổi Đường Thành Tiêu Dao</text>
+      </navLabel>
+      <content src="chapter-32.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-33" playOrder="33">
+      <navLabel>
+        <text>Chương 33: 33: Hổ Lang Tâm Tả Gia Cường Đón Dâu</text>
+      </navLabel>
+      <content src="chapter-33.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-34" playOrder="34">
+      <navLabel>
+        <text>Chương 34: 34: Ngũ Sĩ Lục Nhập Cửu Cung Bát Quái</text>
+      </navLabel>
+      <content src="chapter-34.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-35" playOrder="35">
+      <navLabel>
+        <text>Chương 35: 35: Cửu Khúc Liên Hoàn Hội Nhập Mê Đồ</text>
+      </navLabel>
+      <content src="chapter-35.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-36" playOrder="36">
+      <navLabel>
+        <text>Chương 36: 36: Bát Quái Trận Giấu Diếm Yểm Nhĩ Linh</text>
+      </navLabel>
+      <content src="chapter-36.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-37" playOrder="37">
+      <navLabel>
+        <text>Chương 37: 37: Vạn Trượng Phong Ba Từ Hôm Nay</text>
+      </navLabel>
+      <content src="chapter-37.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-38" playOrder="38">
+      <navLabel>
+        <text>Chương 38: 38: Thế Gian Ác Giả Gặp Khó Bình</text>
+      </navLabel>
+      <content src="chapter-38.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-39" playOrder="39">
+      <navLabel>
+        <text>Chương 39: 39: Bên Ngoài Tam Thập Tam Trọng Thiên Lạnh Giá</text>
+      </navLabel>
+      <content src="chapter-39.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-40" playOrder="40">
+      <navLabel>
+        <text>Chương 40: 40: Thế Gian An Đến Song Toàn Pháp</text>
+      </navLabel>
+      <content src="chapter-40.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-41" playOrder="41">
+      <navLabel>
+        <text>Chương 41: 41: Nam Chúc Làm Thuốc Trị Bệnh Trầm Kha</text>
+      </navLabel>
+      <content src="chapter-41.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-42" playOrder="42">
+      <navLabel>
+        <text>Chương 42: 42: Nhất Khang Phế Phủ Người Phương Nào Nghe</text>
+      </navLabel>
+      <content src="chapter-42.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-43" playOrder="43">
+      <navLabel>
+        <text>Chương 43: 43: Phụ Cùng Tử Hỗ Đoạn Ruột Gan</text>
+      </navLabel>
+      <content src="chapter-43.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-44" playOrder="44">
+      <navLabel>
+        <text>Chương 44: 44: Đơn Giản Minh Tranh Cùng Ám Đấu</text>
+      </navLabel>
+      <content src="chapter-44.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-45" playOrder="45">
+      <navLabel>
+        <text>Chương 45: 45: Máu Mủ Tình Thâm Thù Không Biết</text>
+      </navLabel>
+      <content src="chapter-45.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-46" playOrder="46">
+      <navLabel>
+        <text>Chương 46: 46: Không Hiểu Tương Tư Uổng Đoạn Trường</text>
+      </navLabel>
+      <content src="chapter-46.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-47" playOrder="47">
+      <navLabel>
+        <text>Chương 47: 47: Yên Vui Hương Đưa Tay Là Có Thể Chạm Tới</text>
+      </navLabel>
+      <content src="chapter-47.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-48" playOrder="48">
+      <navLabel>
+        <text>Chương 48: 48: Xuyên Hai Cánh Khó Thoát Cạm Bẫy</text>
+      </navLabel>
+      <content src="chapter-48.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-49" playOrder="49">
+      <navLabel>
+        <text>Chương 49: 49: Kẻ Địch Dễ Phòng Cướp Nhà Khó Phòng</text>
+      </navLabel>
+      <content src="chapter-49.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-50" playOrder="50">
+      <navLabel>
+        <text>Chương 50: 50: Chưa Nghĩ Ra Lấy Tiêu Đề Gì</text>
+      </navLabel>
+      <content src="chapter-50.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-51" playOrder="51">
+      <navLabel>
+        <text>Chương 51: 51: Nghịch Thiên Mệnh Huyền Tôn Niêm Hoa</text>
+      </navLabel>
+      <content src="chapter-51.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-52" playOrder="52">
+      <navLabel>
+        <text>Chương 52: 52: Mưu Cầu Đường Sống Cửu Tử Nhất Sinh</text>
+      </navLabel>
+      <content src="chapter-52.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-53" playOrder="53">
+      <navLabel>
+        <text>Chương 53: 53: Hóa Long Thân Thiếp Thân Sắp Đặt</text>
+      </navLabel>
+      <content src="chapter-53.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-54" playOrder="54">
+      <navLabel>
+        <text>Chương 54: 54: Đông Nam Chiến Hỏa Ba Ngàn Dặm</text>
+      </navLabel>
+      <content src="chapter-54.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-55" playOrder="55">
+      <navLabel>
+        <text>Chương 55: 55: Tượng Hữu Nha Dĩ Thần Kỳ Thân</text>
+      </navLabel>
+      <content src="chapter-55.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-56" playOrder="56">
+      <navLabel>
+        <text>Chương 56: 56: Cường Thủ Giả Tất Hậu Vô Công</text>
+      </navLabel>
+      <content src="chapter-56.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-57" playOrder="57">
+      <navLabel>
+        <text>Chương 57: 57: Không Có Tiêu Đề Hay</text>
+      </navLabel>
+      <content src="chapter-57.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-58" playOrder="58">
+      <navLabel>
+        <text>Chương 58: 58: Quân Tâm Nói Không Tin</text>
+      </navLabel>
+      <content src="chapter-58.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-59" playOrder="59">
+      <navLabel>
+        <text>Chương 59: 59: Quyển 1 -</text>
+      </navLabel>
+      <content src="chapter-59.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-60" playOrder="60">
+      <navLabel>
+        <text>Chương 60: 60: Đây Là Một Thanh Đao</text>
+      </navLabel>
+      <content src="chapter-60.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-61" playOrder="61">
+      <navLabel>
+        <text>Chương 61: 61: Đều Là Thú Trong Lồng</text>
+      </navLabel>
+      <content src="chapter-61.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-62" playOrder="62">
+      <navLabel>
+        <text>Chương 62: 62: Hồn Đoạn Ly Hận Thiên</text>
+      </navLabel>
+      <content src="chapter-62.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-63" playOrder="63">
+      <navLabel>
+        <text>Chương 63</text>
+      </navLabel>
+      <content src="chapter-63.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-64" playOrder="64">
+      <navLabel>
+        <text>Chương 64</text>
+      </navLabel>
+      <content src="chapter-64.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-65" playOrder="65">
+      <navLabel>
+        <text>Chương 65</text>
+      </navLabel>
+      <content src="chapter-65.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-66" playOrder="66">
+      <navLabel>
+        <text>Chương 66</text>
+      </navLabel>
+      <content src="chapter-66.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-67" playOrder="67">
+      <navLabel>
+        <text>Chương 67</text>
+      </navLabel>
+      <content src="chapter-67.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-68" playOrder="68">
+      <navLabel>
+        <text>Chương 68</text>
+      </navLabel>
+      <content src="chapter-68.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-69" playOrder="69">
+      <navLabel>
+        <text>Chương 69</text>
+      </navLabel>
+      <content src="chapter-69.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-70" playOrder="70">
+      <navLabel>
+        <text>Chương 70</text>
+      </navLabel>
+      <content src="chapter-70.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-71" playOrder="71">
+      <navLabel>
+        <text>Chương 71</text>
+      </navLabel>
+      <content src="chapter-71.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-72" playOrder="72">
+      <navLabel>
+        <text>Chương 72</text>
+      </navLabel>
+      <content src="chapter-72.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-73" playOrder="73">
+      <navLabel>
+        <text>Chương 73</text>
+      </navLabel>
+      <content src="chapter-73.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-74" playOrder="74">
+      <navLabel>
+        <text>Chương 74</text>
+      </navLabel>
+      <content src="chapter-74.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-75" playOrder="75">
+      <navLabel>
+        <text>Chương 75</text>
+      </navLabel>
+      <content src="chapter-75.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-76" playOrder="76">
+      <navLabel>
+        <text>Chương 76</text>
+      </navLabel>
+      <content src="chapter-76.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-77" playOrder="77">
+      <navLabel>
+        <text>Chương 77</text>
+      </navLabel>
+      <content src="chapter-77.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-78" playOrder="78">
+      <navLabel>
+        <text>Chương 78</text>
+      </navLabel>
+      <content src="chapter-78.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-79" playOrder="79">
+      <navLabel>
+        <text>Chương 79</text>
+      </navLabel>
+      <content src="chapter-79.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-80" playOrder="80">
+      <navLabel>
+        <text>Chương 80</text>
+      </navLabel>
+      <content src="chapter-80.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-81" playOrder="81">
+      <navLabel>
+        <text>Chương 81</text>
+      </navLabel>
+      <content src="chapter-81.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-82" playOrder="82">
+      <navLabel>
+        <text>Chương 82</text>
+      </navLabel>
+      <content src="chapter-82.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-83" playOrder="83">
+      <navLabel>
+        <text>Chương 83</text>
+      </navLabel>
+      <content src="chapter-83.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-84" playOrder="84">
+      <navLabel>
+        <text>Chương 84</text>
+      </navLabel>
+      <content src="chapter-84.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-85" playOrder="85">
+      <navLabel>
+        <text>Chương 85</text>
+      </navLabel>
+      <content src="chapter-85.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-86" playOrder="86">
+      <navLabel>
+        <text>Chương 86</text>
+      </navLabel>
+      <content src="chapter-86.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-87" playOrder="87">
+      <navLabel>
+        <text>Chương 87</text>
+      </navLabel>
+      <content src="chapter-87.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-88" playOrder="88">
+      <navLabel>
+        <text>Chương 88</text>
+      </navLabel>
+      <content src="chapter-88.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-89" playOrder="89">
+      <navLabel>
+        <text>Chương 89</text>
+      </navLabel>
+      <content src="chapter-89.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-90" playOrder="90">
+      <navLabel>
+        <text>Chương 90</text>
+      </navLabel>
+      <content src="chapter-90.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-91" playOrder="91">
+      <navLabel>
+        <text>Chương 91</text>
+      </navLabel>
+      <content src="chapter-91.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-92" playOrder="92">
+      <navLabel>
+        <text>Chương 92</text>
+      </navLabel>
+      <content src="chapter-92.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-93" playOrder="93">
+      <navLabel>
+        <text>Chương 93</text>
+      </navLabel>
+      <content src="chapter-93.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-94" playOrder="94">
+      <navLabel>
+        <text>Chương 94</text>
+      </navLabel>
+      <content src="chapter-94.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-95" playOrder="95">
+      <navLabel>
+        <text>Chương 95</text>
+      </navLabel>
+      <content src="chapter-95.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-96" playOrder="96">
+      <navLabel>
+        <text>Chương 96</text>
+      </navLabel>
+      <content src="chapter-96.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-97" playOrder="97">
+      <navLabel>
+        <text>Chương 97</text>
+      </navLabel>
+      <content src="chapter-97.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-98" playOrder="98">
+      <navLabel>
+        <text>Chương 98</text>
+      </navLabel>
+      <content src="chapter-98.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-99" playOrder="99">
+      <navLabel>
+        <text>Chương 99</text>
+      </navLabel>
+      <content src="chapter-99.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-100" playOrder="100">
+      <navLabel>
+        <text>Chương 100</text>
+      </navLabel>
+      <content src="chapter-100.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-101" playOrder="101">
+      <navLabel>
+        <text>Chương 101</text>
+      </navLabel>
+      <content src="chapter-101.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-102" playOrder="102">
+      <navLabel>
+        <text>Chương 102</text>
+      </navLabel>
+      <content src="chapter-102.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-103" playOrder="103">
+      <navLabel>
+        <text>Chương 103</text>
+      </navLabel>
+      <content src="chapter-103.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-104" playOrder="104">
+      <navLabel>
+        <text>Chương 104: Phiên ngoại 1</text>
+      </navLabel>
+      <content src="chapter-104.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-105" playOrder="105">
+      <navLabel>
+        <text>Chương 105: Phiên ngoại 2</text>
+      </navLabel>
+      <content src="chapter-105.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-106" playOrder="106">
+      <navLabel>
+        <text>Chương 106: Phiên ngoại 3</text>
+      </navLabel>
+      <content src="chapter-106.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-107" playOrder="107">
+      <navLabel>
+        <text>Chương 107: Phiên ngoại 4</text>
+      </navLabel>
+      <content src="chapter-107.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-108" playOrder="108">
+      <navLabel>
+        <text>Chương 108: Ta muốn gặp nàng</text>
+      </navLabel>
+      <content src="chapter-108.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-109" playOrder="109">
+      <navLabel>
+        <text>Chương 109: Đánh không lại ngươi tới làm gì</text>
+      </navLabel>
+      <content src="chapter-109.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-110" playOrder="110">
+      <navLabel>
+        <text>Chương 110: Vĩnh viễn không quên</text>
+      </navLabel>
+      <content src="chapter-110.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-111" playOrder="111">
+      <navLabel>
+        <text>Chương 111: Ngươi có tin ta hay không?</text>
+      </navLabel>
+      <content src="chapter-111.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-112" playOrder="112">
+      <navLabel>
+        <text>Chương 112: Chung Mị Sơ cũng không thể hoàn toàn thoát khỏi thiên tính</text>
+      </navLabel>
+      <content src="chapter-112.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-113" playOrder="113">
+      <navLabel>
+        <text>Chương 113: Tất cả đều cho ngươi</text>
+      </navLabel>
+      <content src="chapter-113.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-114" playOrder="114">
+      <navLabel>
+        <text>Chương 114: Ngươi yêu nàng sao?</text>
+      </navLabel>
+      <content src="chapter-114.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-115" playOrder="115">
+      <navLabel>
+        <text>Chương 115: Ta có chút khó chịu</text>
+      </navLabel>
+      <content src="chapter-115.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-116" playOrder="116">
+      <navLabel>
+        <text>Chương 116: Từ nơi sâu xa tự có định số</text>
+      </navLabel>
+      <content src="chapter-116.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-117" playOrder="117">
+      <navLabel>
+        <text>Chương 117: Mượn đao giết người</text>
+      </navLabel>
+      <content src="chapter-117.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-118" playOrder="118">
+      <navLabel>
+        <text>Chương 118: Ta đã bị người đóng dấu</text>
+      </navLabel>
+      <content src="chapter-118.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-119" playOrder="119">
+      <navLabel>
+        <text>Chương 119: Ngươi có thể... để Tiểu Bạch Long phong trận</text>
+      </navLabel>
+      <content src="chapter-119.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-120" playOrder="120">
+      <navLabel>
+        <text>Chương 120: Thương hải tang điền, quyết chí thề không đổi</text>
+      </navLabel>
+      <content src="chapter-120.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-121" playOrder="121">
+      <navLabel>
+        <text>Chương 121: Xích Tử</text>
+      </navLabel>
+      <content src="chapter-121.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-122" playOrder="122">
+      <navLabel>
+        <text>Chương 122: Cộng hưởng</text>
+      </navLabel>
+      <content src="chapter-122.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-123" playOrder="123">
+      <navLabel>
+        <text>Chương 123: Ba lần triệu hoán</text>
+      </navLabel>
+      <content src="chapter-123.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-124" playOrder="124">
+      <navLabel>
+        <text>Chương 124: Ta yêu ngươi</text>
+      </navLabel>
+      <content src="chapter-124.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-125" playOrder="125">
+      <navLabel>
+        <text>Chương 125: Bế tắc</text>
+      </navLabel>
+      <content src="chapter-125.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-126" playOrder="126">
+      <navLabel>
+        <text>Chương 126: Cuồng phong</text>
+      </navLabel>
+      <content src="chapter-126.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-127" playOrder="127">
+      <navLabel>
+        <text>Chương 127: Cưới ta</text>
+      </navLabel>
+      <content src="chapter-127.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-128" playOrder="128">
+      <navLabel>
+        <text>Chương 128: Thích nô</text>
+      </navLabel>
+      <content src="chapter-128.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-129" playOrder="129">
+      <navLabel>
+        <text>Chương 129: Tân sinh</text>
+      </navLabel>
+      <content src="chapter-129.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-130" playOrder="130">
+      <navLabel>
+        <text>Chương 130: Mắng trời</text>
+      </navLabel>
+      <content src="chapter-130.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-131" playOrder="131">
+      <navLabel>
+        <text>Chương 131: Lập tông</text>
+      </navLabel>
+      <content src="chapter-131.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-132" playOrder="132">
+      <navLabel>
+        <text>Chương 132: Khẽ vuốt</text>
+      </navLabel>
+      <content src="chapter-132.xhtml" />
+    </navPoint>
+    <navPoint id="navPoint-133" playOrder="133">
+      <navLabel>
+        <text>Chương 133: Vạn vật đổi mới</text>
+      </navLabel>
+      <content src="chapter-133.xhtml" />
+    </navPoint>
+  </navMap>
+</ncx>

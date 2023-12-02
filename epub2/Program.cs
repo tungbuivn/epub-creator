@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using epub2;
 using epub2.Stories;
+using EPubBook;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -24,8 +25,10 @@ var builder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((bd,serviceCollection) =>
     {
         bd.HostingEnvironment.ContentRootPath = Directory.GetCurrentDirectory();
-        serviceCollection.AddSingleton<Config>(c=>new Config(args,c.GetRequiredService<IHostEnvironment>()));
+        serviceCollection.AddSingleton<Config>(serviceProvider=>
+            new Config(args,serviceProvider.GetRequiredService<IHostEnvironment>()));
         serviceCollection.AddHostedService<Main>();
+        serviceCollection.AddTransient<Epub>();
         serviceCollection.AddSerilog(new LoggerConfiguration()
             .Enrich.WithExceptionDetails()
             .WriteTo.Console()
@@ -47,14 +50,6 @@ var builder = Host.CreateDefaultBuilder(args)
     
     .UseConsoleLifetime();
 
-// builder.   Services.AddSingleton(c => logger);
-// services.AddHttpClient();
-// services.AddDbContext<MyDbContext>();
 var host = builder.Build();
-// await host.Services.GetRequiredService<Main>().Run();
+
 await host.RunAsync();
-
-// await host.Services.GetService<Main>().Run();
-// code
-
-// await host.RunAsync();

@@ -1,9 +1,10 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
+using AngleSharp;
 using AngleSharp.Html.Parser;
 using epub2.Stories;
-using EPubFactory;
+using EPubBook;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 // using Microsoft.Extensions.Logging;
@@ -11,26 +12,17 @@ using Serilog;
 
 namespace epub2;
 
-public class Main : IHostedService
+public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILogger logger,
+        IHostApplicationLifetime appLifetime)
+    : IHostedService
 {
-    private readonly IStorySite _storySite;
-    private readonly Util _util;
-    private readonly Config _config;
-    private readonly ILogger _logger;
-    private readonly IHostApplicationLifetime _appLifetime;
+    // private readonly Epub _epub = epub;
+
     // private Task _run;
 
-    public Main(IStorySite storySite,Util util,Config config,ILogger logger, IHostApplicationLifetime appLifetime)
-    {
-        _storySite = storySite;
-        _util = util;
-        _config = config;
-        _logger = logger;
-        _appLifetime = appLifetime;
-        // appLifetime.ApplicationStarted.Register(OnStarted);
-        // appLifetime.ApplicationStopping.Register(OnStopping);
-        // appLifetime.ApplicationStopped.Register(OnStopped);
-    }
+    // appLifetime.ApplicationStarted.Register(OnStarted);
+    // appLifetime.ApplicationStopping.Register(OnStopping);
+    // appLifetime.ApplicationStopped.Register(OnStopped);
 
     // private void OnStopping()
     // {
@@ -51,20 +43,33 @@ public class Main : IHostedService
     private static readonly object Clk = new();
     private List<UrlData> _chapterList=new();
 
+    // private async Task ProcessChapters()
+    // {
+    //     epub.AddChapter("file-01.xhtml","title","content");
+    //     epub.Save(new EPubOptions()
+    //     {
+    //         Title = "Test some thing",
+    //         FileName="./xxtrx.zip"
+    //     });
+    //     await Task.CompletedTask;
+    // }
     private async Task ProcessChapters()
     {
+       
+        // return;
         var allChap = new List<string>();
         // _chapterList = new List<UrlData>();
         var chapterDone = new ManualResetEvent(false);
-        var ePubStream = File.Create($"{_config.EPubFile}.epub");
-
-        var writer = await EPubWriter.CreateWriterAsync(
-            ePubStream,
-            Regex.Replace(Regex.Replace($"{_config.EPubFile}", "[^a-zA-Z0-9]", " "), "\\s+", " "),
-            "tntdb",
-            "08915002",
-            new CultureInfo("vi-VN"));
-        writer.Publisher = "tntdb";
+        
+        // using var ePubStream = File.Create($"{config.EPubFile}.epub");
+        //
+        // using var writer = await EPubWriter.CreateWriterAsync(
+        //     ePubStream,
+        //     Regex.Replace(Regex.Replace($"{config.EPubFile}", "[^a-zA-Z0-9]", " "), "\\s+", " "),
+        //     "tntdb",
+        //     "08915002",
+        //     new CultureInfo("vi-VN"));
+        // writer.Publisher = "tntdb";
         var urlQueue = new BufferBlock<UrlData>(new DataflowBlockOptions()
         {
             // BoundedCapacity = 100
@@ -77,13 +82,13 @@ public class Main : IHostedService
                 try
                 {
                  
-                    data.FileName = await _util.DownloadAsync(data.Url);
+                    data.FileName = await util.DownloadAsync(data.Url);
                     
                     return data;
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex,"Error download url: "+data.Url);
+                    logger.Error(ex,"Error download url: "+data.Url);
                     await Task.Delay(1000);
                 }
             }
@@ -96,16 +101,20 @@ public class Main : IHostedService
         });
         var processChapters = new ActionBlock<UrlData>(async (d) =>
         {
-
+        
             try
             {
                 var parser=new HtmlParser();
-                var content = File.ReadAllText(Path.Combine(_config.CacheDirectory, _util.GetCacheFilename(d.Url)));
+                var content = await File.ReadAllTextAsync(Path.Combine(config.CacheDirectory, util.GetCacheFilename(d.Url)));
                 var document = parser.ParseDocument(content);
            
-                d.ChapterInfos=_storySite.GetListChapters( document);
+                d.ChapterInfos=storySite.GetListChapters( document)
+                    .Where(o=>o.Link.ToLower().StartsWith("http"))
+                    .ToList();
                 // var cs = chapterList.Select(o => o.Url).ToList();
-                var pages = _storySite.GetListPages( document).Where(link=>!allChap.Contains(link)).Distinct().ToList();
+                var pages = storySite.GetListPages( document).Where(link=>!allChap.Contains(link)).Distinct()
+                    .Where(o=>o.ToLower().StartsWith("http"))
+                    .ToList();
                 foreach (var link in pages)
                 {
                     await urlQueue.SendAsync(new UrlData()
@@ -115,8 +124,8 @@ public class Main : IHostedService
                     });
                 }
                 allChap.AddRange(pages);
-
-                d.Page = _storySite.GetPageNumber(d.Url);
+        
+                d.Page = storySite.GetPageNumber(d.Url);
                 d.ChapterDone = true;
                 lock (Clk)
                 {
@@ -136,7 +145,7 @@ public class Main : IHostedService
             }
             catch (Exception e)
             {
-                _logger.Error(e,"Loi:");
+                logger.Error(e,"Loi:");
                 throw;
             }
             
@@ -144,37 +153,58 @@ public class Main : IHostedService
         });
         var processContent = new ActionBlock<UrlData>(async (d) =>
         {
+            logger.Information("Add chapter: "+d.ChapterContent.Title);
             var parser=new HtmlParser();
-            var content = File.ReadAllText(Path.Combine(_config.CacheDirectory, _util.GetCacheFilename(d.Url)));
+            var content = await File.ReadAllTextAsync(Path.Combine(config.CacheDirectory, util.GetCacheFilename(d.Url)));
+            content = Regex.Replace(content,"<\\!--.*?-->", "");
             var document = parser.ParseDocument(content);
             // var text = document.Body;
             document.QuerySelectorAll("script").ToList().ForEach(o => o.OuterHtml = "\n");
-            d.ChapterContent.Content = _storySite.GetChapterContent(document);
+            document.QuerySelectorAll("style").ToList().ForEach(o => o.OuterHtml = "\n");
+            var html=storySite.GetChapterContent(document);
+        
+            html = parser.ParseFragment(html, null!)
+                .ToHtml(new TextMarkupFormatter())
+                
+                .Trim();
+            
+            
+            
+            // var splstr = "xxoosdbdbooxx";
+            // html = Regex.Replace(html, "</[a-zA-Z]+>", splstr);
+            // html = Regex.Replace(html, "<.[^>]*.", splstr);
+            // html = Regex.Replace(html,splstr,"\n");
+            
+            html = Regex.Replace(html,"\\n+","\n");
+            d.ChapterContent.Content = html;
             GenerateHtml(d.ChapterContent);
-
-            await writer.AddChapterAsync(
-                d.ChapterContent.FileName,
+            epub.AddChapter(d.ChapterContent.FileName,
                 d.ChapterContent.Title,
                 d.ChapterContent.Content);
+            // await writer.AddChapterAsync(
+            //     d.ChapterContent.FileName,
+            //     d.ChapterContent.Title,
+            //     d.ChapterContent.Content);
             // _logger.Information("done:" + d);
             await Task.CompletedTask;
         });
         urlQueue.LinkTo(downloadQueue);
-
+        
         downloadQueue.LinkTo(processChapters, d => d.Type == UrlType.LIST_CHAPTERS);
         downloadQueue.LinkTo(processContent,d => d.Type == UrlType.CONTENT);
         // not valid data
         downloadQueue.LinkTo(DataflowBlock.NullTarget<UrlData>());
-        allChap.Add(_config.Url);
+        allChap.Add(config.Url);
         await urlQueue.SendAsync(new UrlData()
         {
             Type = UrlType.LIST_CHAPTERS,
-            Url = _config.Url
+            Url = config.Url
         });
         chapterDone.WaitOne();
+        List<ChapterInfo> allChaps;
         lock (Clk)
         {
-            _chapterList=_chapterList.OrderBy(a=>a.Page).ToList();
+            _chapterList=_chapterList.DistinctBy(o=>o.Page).OrderBy(a=>a.Page).ToList();
             if (_chapterList.Any(p => p.Page == 1))
             {
                 if (_chapterList.Any(p => p.Page == 0))
@@ -182,13 +212,15 @@ public class Main : IHostedService
                     _chapterList = _chapterList.Where(o => o.Page != 1).ToList();
                 }
             }
+        
+            allChaps = _chapterList.SelectMany(ch => ch.ChapterInfos).DistinctBy(c=>c.Link).ToList();
         }
         
-       
+        
         var idx = 0;
-        foreach (var chap in _chapterList)
+        foreach (var it in allChaps)
         {
-            foreach (var it in chap.ChapterInfos)
+            // foreach (var it in chap.ChapterInfos)
             {
                 idx++;
                 it.Idx = idx;
@@ -206,25 +238,29 @@ public class Main : IHostedService
             }
           
         }
-
+        
         foreach (var df in new IDataflowBlock[]{urlQueue,downloadQueue,processContent})
         {
             df.Complete();
             await df.Completion;
         }
-
         
-
+        
+        
         // urlQueue.Complete();
         // await urlQueue.Completion;
         // downloadQueue.Complete();
         // await downloadQueue.Completion;
         // processContent.Complete();
         // await processContent.Completion;
-        
-        await writer.WriteEndOfPackageAsync();
-        writer.Dispose();
-       
+        epub.Save(new EPubOptions()
+        {
+            FileName = $"{config.EPubFile}.epub",
+            Title = Regex.Replace(Regex.Replace($"{config.EPubFile}", "[^a-zA-Z0-9]", " "), "\\s+", " ")
+        });
+        // await writer.WriteEndOfPackageAsync();
+        // writer.Dispose();
+        //
     }
 
     private void GenerateHtml(ChapterContent chapterContent)
@@ -237,7 +273,7 @@ public class Main : IHostedService
         docstrong.TextContent = chapterContent.Title;
         docTitle.AppendChild(docstrong);
         var textClip = chapterContent.Content;
-        foreach (var p in _config.BlackList.Value)
+        foreach (var p in config.BlackList.Value)
         {
             textClip = Regex.Replace(textClip, p, "", RegexOptions.IgnoreCase);
         }
@@ -275,7 +311,7 @@ public class Main : IHostedService
           
             finally
             {
-                _appLifetime.StopApplication();
+                appLifetime.StopApplication();
             }
       
     }

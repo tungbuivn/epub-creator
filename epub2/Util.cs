@@ -22,8 +22,8 @@ namespace epub2
 
         public string GetCacheFilename(string url)
         {
-           
-            var hash = BitConverter.ToString(_md5.ComputeHash(Encoding.UTF8.GetBytes(url))).Replace("-","");
+            using var md5 = MD5.Create();
+            var hash = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(url))).Replace("-","");
             var fileName = Path.Combine(_config.CacheDirectory, hash);
             return fileName;
         }

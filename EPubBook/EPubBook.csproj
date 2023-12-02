@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources/META-INF/container.xml"/>
+        <EmbeddedResource Include="Resources/content.opf"/>
+        <EmbeddedResource Include="Resources/mimetype"/>
+        <EmbeddedResource Include="Resources/toc.ncx"/>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="AngleSharp.Xml" Version="1.0.0" />
+      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+</Project>
