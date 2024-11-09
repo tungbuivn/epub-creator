@@ -1,6 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using Serilog;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace epub2
 {
@@ -32,7 +35,7 @@ namespace epub2
         public async Task<string> DownloadAsync(string url)
         {
             var fileName = GetCacheFilename(url);
-            _logger.Information("Downloading: "+url);
+            _logger.Information("Downloading: "+url +" => "+fileName);
             if (File.Exists(fileName))
             {
                 return fileName;
@@ -52,9 +55,48 @@ namespace epub2
             // {
             //     client.DefaultRequestHeaders.Add("User-Agent", Config.StrUserAgent);
 
-            using var result = await _httpClient.GetAsync(url);
-            result.EnsureSuccessStatusCode();
-            var bytes = await result.Content.ReadAsByteArrayAsync();
+            using var handler = new HttpClientHandler()
+            {
+                Proxy = new WebProxy("8c5906b99fbd1c0bcd0f916d545c565af7dbb24d2cae1aa14e9a67673f5862de75661dc8d195273459c85c7bc73d9d96ba707f7546586c8f1bb0806605478a46812d73d8de1e1ff1ebd8f9a92f3918d2login:e7tws07mo9c9@proxy.toolip.io:31113"),
+                UseProxy = true
+            };
+            using var client = new HttpClient(handler);
+            // using var client = new HttpClient();
+            // client.GetByteArrayAsync(url);
+            byte[] bytes;
+            if (true)
+            {
+                var proxyUrl = $"-x \"socks5h://129.226.194.214:1081\"";
+                // var proxyUrl = "--socks4 202.123.178.202:30208";
+                var tempFile = Path.GetTempFileName();
+                var processStartInfo = new ProcessStartInfo
+                {
+                    FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "curl.exe" : "curl",
+                    // Arguments = $"-o \"{tempFile}\" -x \"{proxyUrl}\" \"{url}\"",
+                    Arguments = $"-o \"{tempFile}\"  {proxyUrl}  \"{url}\"",
+                    
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var process = Process.Start(processStartInfo);
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                {
+                    var error = await process.StandardError.ReadToEndAsync();
+                    throw new Exception($"Curl error: {error}");
+                }
+                bytes = File.ReadAllBytes(tempFile);
+                File.Delete(tempFile);
+            }
+            else
+            {
+                bytes = await client.GetByteArrayAsync(url);
+            }
+           
             if (bytes == null || (bytes.Length == 0)) throw new Exception("Can not get html data");
             var str = Encoding.UTF8.GetString(bytes);
             await File.WriteAllTextAsync(fileName, str);

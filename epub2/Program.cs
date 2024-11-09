@@ -15,6 +15,7 @@ using Serilog.Exceptions;
 // var logger = new LoggerConfiguration()
 //     .WriteTo.Console()
 //     .CreateLogger();
+ModifyInMemory.ActivateMemoryPatching();
 var builder = Host.CreateDefaultBuilder(args)
     .ConfigureLogging(loggingBuilder =>
     {
@@ -38,7 +39,8 @@ var builder = Host.CreateDefaultBuilder(args)
             ?.ExportedTypes.Where(t => typeof(IStorySite).IsAssignableFrom(t) && typeof(IStorySite)!=t)
             .ToList()
             .ForEach(cls => serviceCollection.AddSingleton(cls));
-        
+        serviceCollection.AddSingleton<Aspose.Pdf.License>();
+        serviceCollection.AddSingleton<Aspose.Html.License>();
         serviceCollection.AddSingleton<StoryFactory>();
         serviceCollection.AddSingleton<IStorySite>((svc) =>
         {

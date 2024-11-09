@@ -7,7 +7,7 @@ using AngleSharp.Html.Parser;
 
 namespace epub2.Stories
 {
-    [Site("truyenfull.vn", "m.truyenfull.vn")]
+    [Site("truyenfull.vn","truyenfull.io", "m.truyenfull.vn")]
     public class TruyenFull : BaseStory, IStorySite
     {
        

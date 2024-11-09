@@ -1,10 +1,16 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks.Dataflow;
 using AngleSharp;
 using AngleSharp.Html.Parser;
+using Aspose.Pdf.Facades;
 using epub2.Stories;
 using EPubBook;
+// using Aspose.Html;
+// using Aspose.Pdf;
+// using Aspose.Html.Converters;
+// using Aspose.Html.Saving;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 // using Microsoft.Extensions.Logging;
@@ -53,7 +59,7 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
     //     });
     //     await Task.CompletedTask;
     // }
-    private async Task ProcessChapters()
+    private async Task ProcessChapters(CancellationToken cancellationToken)
     {
        
         // return;
@@ -77,8 +83,13 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
         });
         var downloadQueue = new TransformBlock<UrlData, UrlData>(async (data) =>
         {
+            data.FileName = "";
             while (true)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    Environment.Exit(0);
+                }
                 try
                 {
                  
@@ -92,11 +103,15 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
                     await Task.Delay(1000);
                 }
             }
+
            
+            
+            return data;
+
         }, new ExecutionDataflowBlockOptions()
         {
             EnsureOrdered = true,
-            // MaxDegreeOfParallelism = 50,
+            MaxDegreeOfParallelism = 10,
             // SingleProducerConstrained = true
         });
         var processChapters = new ActionBlock<UrlData>(async (d) =>
@@ -190,8 +205,8 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
         });
         urlQueue.LinkTo(downloadQueue);
         
-        downloadQueue.LinkTo(processChapters, d => d.Type == UrlType.LIST_CHAPTERS);
-        downloadQueue.LinkTo(processContent,d => d.Type == UrlType.CONTENT);
+        downloadQueue.LinkTo(processChapters, d =>   d.Type == UrlType.LIST_CHAPTERS);
+        downloadQueue.LinkTo(processContent,d =>  d.Type == UrlType.CONTENT);
         // not valid data
         downloadQueue.LinkTo(DataflowBlock.NullTarget<UrlData>());
         allChap.Add(config.Url);
@@ -246,7 +261,6 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
         }
         
         
-        
         // urlQueue.Complete();
         // await urlQueue.Completion;
         // downloadQueue.Complete();
@@ -258,6 +272,13 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
             FileName = $"{config.EPubFile}.epub",
             Title = Regex.Replace(Regex.Replace($"{config.EPubFile}", "[^a-zA-Z0-9]", " "), "\\s+", " ")
         });
+        
+      
+
+        // using var stream = File.OpenRead($"{config.EPubFile}.epub");
+        // var options = new PdfSaveOptions();
+        // Aspose.Html.License;
+        // Converter.ConvertEPUB(stream, options, "output.pdf");
         // await writer.WriteEndOfPackageAsync();
         // writer.Dispose();
         //
@@ -306,7 +327,7 @@ public class Main(Epub epub, IStorySite storySite, Util util, Config config, ILo
       
             try
             {
-                await ProcessChapters();
+                await ProcessChapters(cancellationToken);
             }
           
             finally

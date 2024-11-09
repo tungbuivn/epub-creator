@@ -2,7 +2,7 @@
   "profiles": {
     "epub2": {
       "commandName": "Project",
-      "commandLineArgs": "https://truyenfull.vn/xuyen-thu-bai-sai-su-mon-sau-ta-nam-yen/"
+      "commandLineArgs": "https://truyenfull.io/dao-quan/"
     }
   }
 }
